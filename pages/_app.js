@@ -34,8 +34,8 @@ export default function App({ Component, pageProps }) {
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta property="og:image" content={db.bg}></meta>
-        <meta property="twitter:image" content={db.bg}></meta>
+        <meta property="og:image" content={db.bglogo}></meta>
+        <meta property="twitter:image" content={db.bglogo}></meta>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
 

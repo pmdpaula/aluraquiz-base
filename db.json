@@ -1,5 +1,6 @@
 {
   "bg": "/bgcakiz01.png",
+  "bglogo": "/bgcakiz02.png",
   "title": "Cakiz - The Cake Quiz",
   "description": "Teste os seus conhecimentos sobre bolos e demais sabores da confeitaria",
   "questions": [
