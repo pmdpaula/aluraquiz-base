@@ -34,19 +34,19 @@ export default function App({ Component, pageProps }) {
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <title>CaKiz - The Cake Quiz</title>
-        <meta name="title" content="CaKiz - The Cake Quiz" />
+        <title>CaKuiz - The Cake Quiz</title>
+        <meta name="title" content="CaKuiz - The Cake Quiz" />
         <meta name="description" content="Teste os seus conhecimentos sobre bolos e demais sabores da confeitaria" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://cakiz.pmdpaula.vercel.app/" />
-        <meta property="og:title" content="CaKiz - The Cake Quiz" />
+        <meta property="og:url" content="https://cakuiz.pmdpaula.vercel.app/" />
+        <meta property="og:title" content="CaKuiz - The Cake Quiz" />
         <meta property="og:description" content="Teste os seus conhecimentos sobre bolos e demais sabores da confeitaria" />
         <meta property="og:image" content={db.bglogo} />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://cakiz.pmdpaula.vercel.app/" />
-        <meta property="twitter:title" content="CaKiz - The Cake Quiz" />
+        <meta property="twitter:url" content="https://cakuiz.pmdpaula.vercel.app/" />
+        <meta property="twitter:title" content="CaKuiz - The Cake Quiz" />
         <meta property="twitter:description" content="Teste os seus conhecimentos sobre bolos e demais sabores da confeitaria" />
         <meta property="twitter:image" content={db.bglogo} />
         
