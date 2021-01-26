@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import db from '../db.json';
 
@@ -30,6 +31,14 @@ const theme = db.theme;
 export default function App({ Component, pageProps }) {
   return (
     <>
+      <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:image" content={db.bg}></meta>
+        <meta property="twitter:image" content={db.bg}></meta>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      </Head>
+
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Component {...pageProps} />
