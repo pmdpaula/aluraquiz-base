@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+// import React from 'react';
+// import PropTypes from 'prop-types';
 
-function Logo({ className }) {
+function Logo() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      space="preserve"
       width="300px"
       height="83px"
       version="1.1"
@@ -102,9 +101,9 @@ function Logo({ className }) {
   );
 }
 
-Logo.propTypes = {
-  className: PropTypes.string.isRequired,
-};
+// Logo.propTypes = {
+//   className: PropTypes.string.isRequired,
+// };
 
 const QuizLogo = styled(Logo)`
   margin: auto;
