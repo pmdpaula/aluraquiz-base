@@ -9,6 +9,8 @@ import QuizBackground from '../src/components/QuizBackground';
 import Footer from '../src/components/Footer';
 import GitHubCorner from '../src/components/GitHubCorner';
 import CakeText from '../src/components/CakeText';
+import Input from '../src/components/Input/Input';
+import Button from '../src/components/Button/Button';
 
 // const BackgroundImage = styled.div`
 //   background-image: url(${db.bg});
@@ -57,15 +59,15 @@ export default function Home() {
               console.log('Fazendo submissão do formulário');
             }}
             >
-              <Widget.Input
+              <Input
                 placeholder="Digite seu nome"
                 onChange={(event) => {
                   setPlayerName(event.target.value);
                 }}
               />
-              <Widget.Button type="submit" disabled={playerName.length <= 1}>
+              <Button type="submit" disabled={playerName.length <= 1}>
                 Jogar!
-              </Widget.Button>
+              </Button>
             </Widget.FormGame>
 
           </Widget.Content>

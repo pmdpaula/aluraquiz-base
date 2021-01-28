@@ -55,34 +55,4 @@ Widget.FormGame = styled.form`
   justify-content: space-around;
 `;
 
-Widget.Input = styled.input.attrs(() => ({
-  type: 'text',
-  // size: props.small ? 5 : 2,
-}))`
-  border-radius: 3px;
-  border: 1px solid ${({ theme }) => theme.colors.secondary};
-  /* display: block; */
-  margin: 1em 0em;
-  padding: 0.25em 1em;
-  font-size: 1em;
-  background-color: ${({ theme }) => theme.colors.altBg};
-
-  ::placeholder {
-    color: ${({ theme }) => theme.colors.secondary};
-  }
-`;
-
-Widget.Button = styled.button`
-  background-color: ${({ theme }) => theme.colors.altBg};
-  font-size: 1em;
-  margin: 1em 0em;
-  padding: 0.25em 1em;
-  border-radius: 3px;
-  border: 2px solid ${({ theme }) => theme.colors.secondary};
-
-  &:hover{
-    box-shadow: 5px 5px 10px -3px rgba(0,0,0,0.5);
-  }
-`;
-
 export default Widget;
