@@ -55,7 +55,7 @@ Widget.FormGame = styled.form`
   justify-content: space-around;
 `;
 
-Widget.Input = styled.input.attrs((props) => ({
+Widget.Input = styled.input.attrs(() => ({
   type: 'text',
   // size: props.small ? 5 : 2,
 }))`
@@ -65,6 +65,7 @@ Widget.Input = styled.input.attrs((props) => ({
   margin: 1em 0em;
   padding: 0.25em 1em;
   font-size: 1em;
+  background-color: ${({ theme }) => theme.colors.altBg};
 
   ::placeholder {
     color: ${({ theme }) => theme.colors.secondary};
