@@ -1,7 +1,7 @@
 import db from '../db.json';
 import CakeText from '../src/components/CakeText/index';
 import QuizBackground from '../src/components/QuizBackground/index';
-import { QuizContainer } from './Contribuidores/index';
+import { QuizContainer } from './contributors/index';
 import QuizLogo from '../src/components/QuizLogo/index';
 import Widget from '../src/components/Widget/index';
 
