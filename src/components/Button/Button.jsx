@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-  background-color: ${({ theme }) => theme.colors.altBg};
+  background-color: ${({ theme }) => theme.colors.secondaryLight};
   font-size: 1em;
   margin: 1em 0em;
   padding: 0.25em 1em;

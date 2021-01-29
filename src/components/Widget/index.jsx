@@ -6,7 +6,7 @@ const Widget = styled.div`
   margin-top: 24px;
   margin-bottom: 24px;
   border: 1px solid ${({ theme }) => theme.colors.primary};
-  background-color: ${({ theme }) => theme.colors.mainBg};
+  background-color: ${({ theme }) => theme.colors.primaryDark};
   border-radius: ${borderRadius};
   overflow: hidden;
   box-shadow: 5px 5px 10px -3px rgba(0,0,0,0.5);

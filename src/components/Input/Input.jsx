@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Input = styled.input.attrs(() => ({
+const InputBase = styled.input.attrs(() => ({
   type: 'text',
   // size: props.small ? 5 : 2,
 }))`
@@ -10,11 +10,17 @@ const Input = styled.input.attrs(() => ({
   margin: 1em 0em;
   padding: 0.25em 1em;
   font-size: 1em;
-  background-color: ${({ theme }) => theme.colors.altBg};
+  background-color: ${({ theme }) => theme.colors.secondaryLight};
 
   ::placeholder {
     color: ${({ theme }) => theme.colors.secondary};
   }
 `;
+
+const Input = ({ onChange, placeholder }) => (
+  <>
+    <InputBase onChange={onChange} placeholder={placeholder} />
+  </>
+);
 
 export default Input;
