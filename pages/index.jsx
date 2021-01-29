@@ -60,7 +60,7 @@ export default function Home() {
             }}
             >
               <Input
-                placeholder="Digite seu nome"
+                placeholder="Como te chamaremos?"
                 onChange={(event) => {
                   setPlayerName(event.target.value);
                 }}
