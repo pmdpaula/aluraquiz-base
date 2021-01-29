@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import db from '../db.json';
+import '../src/components/Toast/Toast.css';
 
 const GlobalStyle = createGlobalStyle`
   * {
