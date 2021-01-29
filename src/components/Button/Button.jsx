@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-  background-color: ${({ theme }) => theme.colors.secondaryLight};
+  background-color: ${({ theme }) => theme.colors.secondaryDark};
+  color: ${({ theme }) => theme.colors.contrastText};
   font-size: 1em;
   margin: 1em 0em;
   padding: 0.25em 1em;

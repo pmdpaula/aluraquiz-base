@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const InputBase = styled.input.attrs(() => ({
   type: 'text',
@@ -17,10 +18,22 @@ const InputBase = styled.input.attrs(() => ({
   }
 `;
 
-const Input = ({ onChange, placeholder }) => (
+const Input = ({ onChange, placeholder, ...props }) => (
   <>
-    <InputBase onChange={onChange} placeholder={placeholder} />
+    <InputBase
+      placeholder={placeholder}
+      onChange={onChange}
+      {...props}
+    />
   </>
 );
+
+Input.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  value: PropTypes.string,
+};
 
 export default Input;
