@@ -10,7 +10,7 @@ import Toast from '../src/components/Toast/Toast';
 
 // import { ReactComponent as checkIcon } from '../src/assets/icons/check.svg';
 // import { ReactComponent as errorIcon } from '../src/assets/icons/error.svg';
-import checkIcon from '../src/assets/icons/check.svg';
+// import checkIcon from '../src/assets/icons/check.svg';
 // import errorIcon from '../src/assets/icons/error.svg';
 // import infoIcon from '../src/assets/icons/info.svg';
 // import warningIcon from '../src/assets/icons/warning.svg';
