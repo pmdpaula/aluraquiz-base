@@ -7,17 +7,53 @@
     {
       "image": "https://www.howcast.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTU5NzA0NjQxODc2ODYxOTcy/lesson-6-make-an-ombre-ruffle-cake-promo-image.jpg",
       "title": "Qual é a técnica utilizada nesse bolo?",
-      "description": "Essa é pra aquecer",
+      "description": "por: https://www.instagram.com/patriciasiqueirabolos",
       "answer": 1,
       "alternatives": ["Naked", "Ruffle", "Marble", "Renda"]
     },
     {
       "image": "https://www.lojadopaulo.com.br/media/catalog/product/cache/2329555b3220b9ea9b656304c589f8bc/2/5/25847.jpg",
       "title": "Qual o nome deste utensílio da confeitaria?",
-      "description": "Começando a meter a mão na massa",
+      "description": "por: https://www.instagram.com/patriciasiqueirabolos",
       "answer": 3,
       "alternatives": ["Faca", "Espátula", "Rolo", "Fuê"]
+    },
+    {
+      "image": "https://salutarnatural.com.br/wp-content/uploads/2019/12/farinha_de_arroz_integral__06037.jpg",
+      "title": "Quanto mais proteína na farinha melhor.",
+      "description": "por: https://www.instagram.com/patriciasiqueirabolos",
+      "answer": 0,
+      "alternatives": ["verdadeiro", "falso"]
+    },
+    {
+      "image": "https://a-static.mlcdn.com.br/618x463/farinha-de-trigo-integral-preco-100g-granel/domgarciaemporio/62e1d96e780f11eaa8924201ac18501e/a9a3f8993af60924e826dfc5b5dc446f.jpg",
+      "title": "A farinha muito trabalhada libera mmuito glúten e é bom para ...",
+      "description": "por: https://www.instagram.com/patriciasiqueirabolos",
+      "answer": 2,
+      "alternatives": ["bolos", "tortas", "pães", "biscoitos"]
+    },
+    {
+      "image": "https://www.robertaferraz.com.br/wp-content/uploads/2017/03/sal-1.png",
+      "title": "Qual a função do sal bas receitas doces?",
+      "description": "por: https://www.instagram.com/patriciasiqueirabolos",
+      "answer": 1,
+      "alternatives": ["salgar", "realçar o sabor", "balancear o doce"]
+    },
+    {
+      "image": "https://img.itdg.com.br/tdg/images/blog/uploads/2017/09/shutterstock_605071070.jpg",
+      "title": "Fermento em pó e bicarbonato de sódio têm a mesma função no bolo?",
+      "description": "por: https://www.instagram.com/patriciasiqueirabolos",
+      "answer": 0,
+      "alternatives": ["verdadeiro", "falso"]
+    },
+    {
+      "image": "https://www.culinariapravaler.com/image/postagens/2019/12/como-fazer-uma-deliciosa-massa-de-bolo-amanteigado-muito-facil.html.png",
+      "title": "Qual o método de preparo da massa amanteigada?",
+      "description": "por: https://www.instagram.com/patriciasiqueirabolos",
+      "answer": 2,
+      "alternatives": ["espumoso", "adição", "cremoso", "híbrido"]
     }
+
   ],
   "external": [
     "https://aluraquiz-css.omariosouto.vercel.app/",
