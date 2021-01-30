@@ -5,21 +5,18 @@
   "description": "Teste os seus conhecimentos sobre bolos e demais sabores da confeitaria",
   "questions": [
     {
-      "image": "https://media.giphy.com/media/xUOxf3yDKCuwpOlT3i/giphy.gif",
-      "title": "Como fazer um seletor por id via CSS?",
+      "image": "https://www.howcast.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTU5NzA0NjQxODc2ODYxOTcy/lesson-6-make-an-ombre-ruffle-cake-promo-image.jpg",
+      "title": "Qual é a técnica utilizada nesse bolo?",
       "description": "Essa é pra aquecer",
-      "answer": 2,
-      "alternatives": [".elemento", "*elemento", "#elemento", "%elemento"]
+      "answer": 1,
+      "alternatives": ["Naked", "Ruffle", "Marble", "Renda"]
     },
     {
-      "image": "https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif",
-      "title": "Como fazer um background gradiente com css?",
-      "description": "Faz tempo em haha",
-      "answer": 0,
-      "alternatives": [
-        "background: linear-gradient(#ff6f60, #607D8B);",
-        "background: gradient(#ff6f60, #607D8B);"
-      ]
+      "image": "https://www.lojadopaulo.com.br/media/catalog/product/cache/2329555b3220b9ea9b656304c589f8bc/2/5/25847.jpg",
+      "title": "Qual o nome deste utensílio da confeitaria?",
+      "description": "Começando a meter a mão na massa",
+      "answer": 3,
+      "alternatives": ["Faca", "Espátula", "Rolo", "Fuê"]
     }
   ],
   "external": [""],
@@ -35,7 +32,7 @@
       "secondaryLight": "##8eacbb",
       "secondaryDark": "#34515e",
       "contrastText": "#FFFFFF",
-      "wrong": "#D84315",
+      "wrong": "#d84315",
       "success": "#43A047"
     },
     "borderRadius": "4px"

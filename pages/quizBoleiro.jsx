@@ -1,3 +1,5 @@
+/* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
+
 import { useEffect, useState } from 'react';
 import db from '../db.json';
 import CakeText from '../src/components/CakeText/index';
@@ -7,13 +9,7 @@ import QuizLogo from '../src/components/QuizLogo/index';
 import Widget from '../src/components/Widget/index';
 import Button from '../src/components/Button/Button';
 import Toast from '../src/components/Toast/Toast';
-
-// import { ReactComponent as checkIcon } from '../src/assets/icons/check.svg';
-// import { ReactComponent as errorIcon } from '../src/assets/icons/error.svg';
-// import checkIcon from '../src/assets/icons/check.svg';
-// import errorIcon from '../src/assets/icons/error.svg';
-// import infoIcon from '../src/assets/icons/info.svg';
-// import warningIcon from '../src/assets/icons/warning.svg';
+import AlternativesForm from '../src/components/AlternativesForm/AlternativesForm';
 
 const BUTTON_PROPS = [
   {
@@ -42,7 +38,7 @@ const BUTTON_PROPS = [
   },
 ];
 
-const LoadingScreen = () => (
+const LoadingWidget = () => (
   <Widget>
     <Widget.Header>
       Carregando...
@@ -53,13 +49,62 @@ const LoadingScreen = () => (
   </Widget>
 );
 
+const ResultWidget = ({ results }) => {
+  const qtyRigthQuestion = results.filter((x) => x).length;
+
+  const createMessageResult = () => {
+    if (qtyRigthQuestion > 1) {
+      return `Você acertou ${qtyRigthQuestion} perguntas.`;
+    }
+    if (qtyRigthQuestion === 1) {
+      return `Você acertou ${qtyRigthQuestion} pergunta.`;
+    }
+
+    return 'Parece que não sabes nada de confeitaria. Nenhum acerto!';
+  };
+
+  return (
+    <Widget>
+      <Widget.Header>
+        Resultado
+      </Widget.Header>
+      <Widget.Content>
+        <p>
+          {createMessageResult()}
+        </p>
+        <ul>
+          {results.map((result, resultIdx) => (
+            <li key={`result_${resultIdx}`}>
+              Questão
+              {' '}
+              {(`00${resultIdx + 1}`).slice(-2)}
+              :
+              {result === true
+                ? ' Acertou'
+                : ' Errou'}
+            </li>
+          ))}
+        </ul>
+      </Widget.Content>
+    </Widget>
+  );
+};
+
 const QuestionWidget = ({
   question,
   questionIndex,
   totalQuestions,
+  autoDeleteTime,
   onSubmit,
+  addResult,
+  showToast,
 }) => {
+  const [selectedAlternative, setSelectedAlternative] = useState(undefined);
+  const [isQuestionSubmited, setIsQuestionSubmited] = useState(false);
+
+  const isCorret = selectedAlternative === question.answer;
   const questionId = `question_${questionIndex}`;
+  const hasAlternativeSelected = selectedAlternative !== undefined;
 
   return (
     <Widget>
@@ -81,35 +126,55 @@ const QuestionWidget = ({
         <h2>{question.title}</h2>
         <p>{question.description}</p>
 
-        <form onSubmit={(event) => {
-          event.preventDefault();
-          onSubmit();
-        }}
+        <AlternativesForm
+          onSubmit={(event) => {
+            event.preventDefault();
+            setIsQuestionSubmited(true);
+
+            isCorret
+              ? showToast('success', 'Parabéns! Acertou a questão.')
+              : showToast('danger', 'Resposta errada.');
+
+            setTimeout(() => {
+              addResult(isCorret);
+              setIsQuestionSubmited(false);
+              setSelectedAlternative(undefined);
+              onSubmit();
+            }, autoDeleteTime);
+          }}
         >
           {question.alternatives.map((alternative, alternativeIndex) => {
             const alternativeId = `alternative_${alternativeIndex}`;
+            const selectedAlternatives = isCorret ? 'SUCCESS' : 'ERROR';
+            const isSelected = selectedAlternative === alternativeIndex;
+
             return (
               <Widget.Topic
+                key={alternativeId}
                 as="label"
                 htmlFor={alternativeId}
-                key={alternativeId}
+                data-selected={isSelected}
+                data-status={isQuestionSubmited && selectedAlternatives}
               >
                 <input
-                  style={{ display: 'none' }}
                   id={alternativeId}
-                  type="radio"
                   name={questionId}
+                  style={{ display: 'none' }}
+                  onChange={() => setSelectedAlternative(alternativeIndex)}
+                  type="radio"
                 />
                 {alternative}
               </Widget.Topic>
             );
           })}
 
-          <Button type="submit">
+          {/* <pre>
+            {JSON.stringify(question, null, 4)}
+          </pre> */}
+          <Button type="submit" disabled={!hasAlternativeSelected}>
             Confirmar
           </Button>
-
-        </form>
+        </AlternativesForm>
 
       </Widget.Content>
     </Widget>
@@ -124,16 +189,23 @@ const screenStates = {
 
 const QuizBoleiro = () => {
   const [screenState, setScreenState] = useState(screenStates.LOADING);
+  const [results, setResults] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [playerName, setPlayerName] = useState('Fulano');
+
   const questionIndex = currentQuestion;
   const totalQuestions = db.questions.length;
   const question = db.questions[questionIndex];
 
+  // toast values
   const [list, setList] = useState([]);
   const [position, setPosition] = useState('bottom-right');
-  const [autoDeleteTime, setAutoDeleteTime] = useState(4000);
+  const [autoDeleteTime, setAutoDeleteTime] = useState(2500);
   let toastProperties = null;
+
+  const addResult = (result) => {
+    setResults([...results, result]);
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -141,10 +213,10 @@ const QuizBoleiro = () => {
     setTimeout(() => {
       setPlayerName(urlParams.get('playerName'));
       setScreenState(screenStates.QUIZ);
-    }, 1 * 1000);
+    }, 0.2 * 1000);
   }, []);
 
-  const showToast = (type) => {
+  const showToast = (type, descriptionReceived) => {
     const id = Math.floor((Math.random() * 101) + 1);
 
     switch (type) {
@@ -152,7 +224,7 @@ const QuizBoleiro = () => {
         toastProperties = {
           id,
           title: 'Parabéns',
-          description: 'Você acertou x questões.',
+          description: descriptionReceived,
           backgroundColor: '#5cb85c',
           // icon: checkIcon,
         };
@@ -161,7 +233,7 @@ const QuizBoleiro = () => {
         toastProperties = {
           id,
           title: 'Danger',
-          description: 'This is a error toast component',
+          description: descriptionReceived,
           backgroundColor: '#d9534f',
           // icon: errorIcon,
         };
@@ -200,10 +272,9 @@ const QuizBoleiro = () => {
       setScreenState(screenStates.LOADING);
 
       setTimeout(() => {
-        showToast('success');
         setScreenState(screenStates.RESULT);
         setCurrentQuestion(0);
-      }, 1 * 1000);
+      }, 0.5 * 1000);
     }
   };
 
@@ -212,20 +283,24 @@ const QuizBoleiro = () => {
       <QuizContainer>
         <QuizLogo />
 
-        <CakeText>{`Oi ${playerName}, estamos jogando o Quiz Boleiro`}</CakeText>
+        <CakeText>{`Oi ${playerName}, jogando o Quiz Boleiro`}</CakeText>
         {screenState === screenStates.QUIZ
             && (
-            <QuestionWidget
-              question={question}
-              totalQuestions={totalQuestions}
-              questionIndex={questionIndex}
-              onSubmit={handleSubmitQuiz}
-            />
+              <QuestionWidget
+                question={question}
+                totalQuestions={totalQuestions}
+                questionIndex={questionIndex}
+                onSubmit={handleSubmitQuiz}
+                showToast={showToast}
+                autoDeleteTime={autoDeleteTime}
+                addResult={addResult}
+              />
             )}
 
-        {screenState === screenStates.LOADING && <LoadingScreen />}
+        {screenState === screenStates.LOADING && <LoadingWidget />}
 
-        {screenState === screenStates.RESULT && <div>Você acertou x questões. Parabéns!</div>}
+        {screenState === screenStates.RESULT
+        && <ResultWidget results={results} setResults={setResults} />}
 
         <Toast
           toastList={list}

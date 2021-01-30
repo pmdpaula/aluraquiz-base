@@ -71,6 +71,7 @@ Widget.Topic = styled.a`
 
 Widget.FormGame = styled.form`
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
 `;
 
