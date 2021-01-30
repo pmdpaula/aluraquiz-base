@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Toast = (props) => {
   const {
-    toastList, position, autoDeleteTime,
+    toastList, position, timeoutValue,
   } = props;
   const [list, setList] = useState(toastList);
 
@@ -26,12 +26,12 @@ const Toast = (props) => {
       if (toastList.length && list.length) {
         deleteToast(toastList[0].id);
       }
-    }, autoDeleteTime);
+    }, timeoutValue);
 
     return () => {
       clearInterval(interval);
     };
-  }, [toastList, autoDeleteTime, list]);
+  }, [toastList, timeoutValue, list]);
 
   return (
     <>
@@ -76,7 +76,7 @@ Toast.propTypes = {
 
   })).isRequired,
   position: PropTypes.string.isRequired,
-  autoDeleteTime: PropTypes.number.isRequired,
+  timeoutValue: PropTypes.number.isRequired,
 };
 
 export default Toast;
