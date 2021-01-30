@@ -1,53 +1,17 @@
 /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
+import { useState, useEffect } from 'react';
+import { Lottie } from '@crello/react-lottie';
 
-import { useEffect, useState } from 'react';
-import db from '../db.json';
-import CakeText from '../src/components/CakeText/index';
-import QuizBackground from '../src/components/QuizBackground/index';
-import { QuizContainer } from '../src/components/QuizContainer/QuizContainer';
-import QuizLogo from '../src/components/QuizLogo/index';
-import Widget from '../src/components/Widget/index';
-import Button from '../src/components/Button/Button';
-import Toast from '../src/components/Toast/Toast';
-import AlternativesForm from '../src/components/AlternativesForm/AlternativesForm';
-
-const BUTTON_PROPS = [
-  {
-    id: 1,
-    type: 'success',
-    className: 'success',
-    label: 'Success',
-  },
-  {
-    id: 2,
-    type: 'danger',
-    className: 'danger',
-    label: 'Danger',
-  },
-  {
-    id: 3,
-    type: 'info',
-    className: 'info',
-    label: 'Info',
-  },
-  {
-    id: 4,
-    type: 'warning',
-    className: 'warning',
-    label: 'Warning',
-  },
-];
-
-const LoadingWidget = () => (
-  <Widget>
-    <Widget.Header>
-      Carregando...
-    </Widget.Header>
-    <Widget.Content>
-      [Desafio do loading]
-    </Widget.Content>
-  </Widget>
-);
+import Widget from '../../components/Widget';
+import QuizLogo from '../../components/QuizLogo';
+import QuizBackground from '../../components/QuizBackground';
+import { QuizContainer } from '../../components/QuizContainer/QuizContainer';
+import AlternativesForm from '../../components/AlternativesForm/AlternativesForm';
+import Button from '../../components/Button/Button';
+import BackLinkArrow from '../../components/BackLinkArrow/BackLinkArrow';
+import Toast from '../../components/Toast/Toast';
+import CakeText from '../../components/CakeText/index';
+import loadingAnimation from './animations/loadingCakes.json';
 
 const ResultWidget = ({ results }) => {
   const qtyRigthQuestion = results.filter((x) => x).length;
@@ -66,35 +30,55 @@ const ResultWidget = ({ results }) => {
   return (
     <Widget>
       <Widget.Header>
-        Resultado
+        <CakeText>Resultado</CakeText>
       </Widget.Header>
       <Widget.Content>
         <p>
           {createMessageResult()}
         </p>
         <ul>
-          {results.map((result, resultIdx) => (
-            <li key={`result_${resultIdx}`}>
-              Questão
-              {' '}
-              {(`00${resultIdx + 1}`).slice(-2)}
-              :
-              {result === true
-                ? ' Acertou'
-                : ' Errou'}
-            </li>
-          ))}
+          {results.map((result, resultIdx) => {
+            const resultKey = `result_${resultIdx}`;
+            return (
+              <li key={resultKey}>
+                Questão
+                {' '}
+                {(`00${resultIdx + 1}`).slice(-2)}
+                :
+                {result === true
+                  ? ' Acertou'
+                  : ' Errou'}
+              </li>
+            );
+          })}
         </ul>
       </Widget.Content>
     </Widget>
   );
 };
 
+const LoadingWidget = ({ titleText }) => (
+  <Widget>
+    <Widget.Header>
+      <CakeText>{titleText}</CakeText>
+    </Widget.Header>
+
+    <Widget.Content style={{ display: 'flex', justifyContent: 'center' }}>
+      <Lottie
+        width="200px"
+        height="200px"
+        className="lottie-container basic"
+        config={{ animationData: loadingAnimation, loop: true, autoplay: true }}
+      />
+    </Widget.Content>
+  </Widget>
+);
+
 const QuestionWidget = ({
   question,
   questionIndex,
   totalQuestions,
-  autoDeleteTime,
+  timeoutValue,
   onSubmit,
   addResult,
   showToast,
@@ -102,17 +86,19 @@ const QuestionWidget = ({
   const [selectedAlternative, setSelectedAlternative] = useState(undefined);
   const [isQuestionSubmited, setIsQuestionSubmited] = useState(false);
 
-  const isCorret = selectedAlternative === question.answer;
-  const questionId = `question_${questionIndex}`;
+  const isCorrect = selectedAlternative === question.answer;
+  const questionId = `question__${questionIndex}`;
   const hasAlternativeSelected = selectedAlternative !== undefined;
 
   return (
     <Widget>
       <Widget.Header>
-        <CakeText>
-          {`Questão ${questionIndex + 1} - ${` ${totalQuestions}`}`}
-        </CakeText>
+        <BackLinkArrow href="/" />
+        <h3>
+          {`Pergunta ${questionIndex + 1} de ${totalQuestions}`}
+        </h3>
       </Widget.Header>
+
       <img
         alt="Descrição"
         style={{
@@ -123,43 +109,46 @@ const QuestionWidget = ({
         src={question.image}
       />
       <Widget.Content>
-        <h2>{question.title}</h2>
-        <p>{question.description}</p>
+        <h2>
+          {question.title}
+        </h2>
+        <p>
+          {question.description}
+        </p>
 
         <AlternativesForm
-          onSubmit={(event) => {
-            event.preventDefault();
+          onSubmit={(infosDoEvento) => {
+            infosDoEvento.preventDefault();
             setIsQuestionSubmited(true);
 
-            isCorret
-              ? showToast('success', 'Parabéns! Acertou a questão.')
+            isCorrect
+              ? showToast('success', 'Resposta correta.')
               : showToast('danger', 'Resposta errada.');
 
             setTimeout(() => {
-              addResult(isCorret);
+              addResult(isCorrect);
+              onSubmit();
               setIsQuestionSubmited(false);
               setSelectedAlternative(undefined);
-              onSubmit();
-            }, autoDeleteTime);
+            }, timeoutValue);
           }}
         >
           {question.alternatives.map((alternative, alternativeIndex) => {
-            const alternativeId = `alternative_${alternativeIndex}`;
-            const selectedAlternatives = isCorret ? 'SUCCESS' : 'ERROR';
+            const alternativeId = `alternative__${alternativeIndex}`;
+            const alternativeStatus = isCorrect ? 'SUCCESS' : 'ERROR';
             const isSelected = selectedAlternative === alternativeIndex;
-
             return (
               <Widget.Topic
-                key={alternativeId}
                 as="label"
+                key={alternativeId}
                 htmlFor={alternativeId}
                 data-selected={isSelected}
-                data-status={isQuestionSubmited && selectedAlternatives}
+                data-status={isQuestionSubmited && alternativeStatus}
               >
                 <input
+                  style={{ display: 'none' }}
                   id={alternativeId}
                   name={questionId}
-                  style={{ display: 'none' }}
                   onChange={() => setSelectedAlternative(alternativeIndex)}
                   type="radio"
                 />
@@ -174,8 +163,8 @@ const QuestionWidget = ({
           <Button type="submit" disabled={!hasAlternativeSelected}>
             Confirmar
           </Button>
-        </AlternativesForm>
 
+        </AlternativesForm>
       </Widget.Content>
     </Widget>
   );
@@ -186,35 +175,56 @@ const screenStates = {
   LOADING: 'LOADING',
   RESULT: 'RESULT',
 };
-
-const QuizBoleiro = () => {
+const QuizPage = ({
+  externalQuestions,
+  externalBg,
+}) => {
   const [screenState, setScreenState] = useState(screenStates.LOADING);
   const [results, setResults] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [playerName, setPlayerName] = useState('Fulano');
 
   const questionIndex = currentQuestion;
-  const totalQuestions = db.questions.length;
-  const question = db.questions[questionIndex];
+  const question = externalQuestions[questionIndex];
+  const totalQuestions = externalQuestions.length;
+  const bgImage = externalBg;
 
   // toast values
   const [list, setList] = useState([]);
-  const [position, setPosition] = useState('bottom-right');
-  const [autoDeleteTime, setAutoDeleteTime] = useState(2500);
+  const position = 'bottom-right';
+  const timeoutValue = 2500;
   let toastProperties = null;
 
-  const addResult = (result) => {
+  function addResult(result) {
+    // results.push(result);
     setResults([...results, result]);
-  };
+  }
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
 
     setTimeout(() => {
-      setPlayerName(urlParams.get('playerName'));
+      if (urlParams.get('playerName') !== null) {
+        setPlayerName(urlParams.get('playerName'));
+      }
+
       setScreenState(screenStates.QUIZ);
-    }, 0.2 * 1000);
+    }, timeoutValue);
   }, []);
+
+  const handleSubmitQuiz = () => {
+    const nextQuestion = questionIndex + 1;
+    if (nextQuestion < totalQuestions) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setScreenState(screenStates.LOADING);
+
+      setTimeout(() => {
+        setScreenState(screenStates.RESULT);
+        setCurrentQuestion(0);
+      }, timeoutValue);
+    }
+  };
 
   const showToast = (type, descriptionReceived) => {
     const id = Math.floor((Math.random() * 101) + 1);
@@ -223,7 +233,7 @@ const QuizBoleiro = () => {
       case 'success':
         toastProperties = {
           id,
-          title: 'Parabéns',
+          title: 'Parabéns!',
           description: descriptionReceived,
           backgroundColor: '#5cb85c',
           // icon: checkIcon,
@@ -232,7 +242,7 @@ const QuizBoleiro = () => {
       case 'danger':
         toastProperties = {
           id,
-          title: 'Danger',
+          title: 'Errado!',
           description: descriptionReceived,
           backgroundColor: '#d9534f',
           // icon: errorIcon,
@@ -264,52 +274,37 @@ const QuizBoleiro = () => {
     setList([...list, toastProperties]);
   };
 
-  const handleSubmitQuiz = () => {
-    const nextQuestion = questionIndex + 1;
-    if (nextQuestion < totalQuestions) {
-      setCurrentQuestion(nextQuestion);
-    } else {
-      setScreenState(screenStates.LOADING);
-
-      setTimeout(() => {
-        setScreenState(screenStates.RESULT);
-        setCurrentQuestion(0);
-      }, 0.5 * 1000);
-    }
-  };
-
   return (
-    <QuizBackground backgroundImage={db.bg}>
+    <QuizBackground backgroundImage={bgImage}>
       <QuizContainer>
         <QuizLogo />
-
         <CakeText>{`Oi ${playerName}, jogando o Quiz Boleiro`}</CakeText>
-        {screenState === screenStates.QUIZ
-            && (
-              <QuestionWidget
-                question={question}
-                totalQuestions={totalQuestions}
-                questionIndex={questionIndex}
-                onSubmit={handleSubmitQuiz}
-                showToast={showToast}
-                autoDeleteTime={autoDeleteTime}
-                addResult={addResult}
-              />
-            )}
 
-        {screenState === screenStates.LOADING && <LoadingWidget />}
+        {screenState === screenStates.QUIZ && (
+          <QuestionWidget
+            question={question}
+            totalQuestions={totalQuestions}
+            questionIndex={questionIndex}
+            onSubmit={handleSubmitQuiz}
+            showToast={showToast}
+            timeoutValue={timeoutValue}
+            addResult={addResult}
+          />
+        )}
 
-        {screenState === screenStates.RESULT
-        && <ResultWidget results={results} setResults={setResults} />}
+        {screenState === screenStates.LOADING && <LoadingWidget titleText="Computando" />}
+
+        {screenState === screenStates.RESULT && <ResultWidget results={results} />}
 
         <Toast
           toastList={list}
           position={position}
-          autoDeleteTime={autoDeleteTime}
+          timeoutValue={timeoutValue}
         />
+
       </QuizContainer>
     </QuizBackground>
   );
 };
 
-export default QuizBoleiro;
+export default QuizPage;

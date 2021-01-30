@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 import db from '../db.json';
 import Widget from '../src/components/Widget';
@@ -11,6 +12,7 @@ import GitHubCorner from '../src/components/GitHubCorner';
 import CakeText from '../src/components/CakeText';
 import Input from '../src/components/Input/Input';
 import Button from '../src/components/Button/Button';
+import Link from '../src/components/Link/Link';
 
 // const BackgroundImage = styled.div`
 //   background-image: url(${db.bg});
@@ -27,7 +29,17 @@ export default function Home() {
     <QuizBackground backgroundImage={db.bg}>
       <QuizContainer>
         <QuizLogo />
-        <Widget>
+        <Widget
+          as={motion.section}
+          transition={{ delay: 0, duration: 0.5 }}
+          variants={{
+            show: { opacity: 1, y: '0' },
+            hidden: { opacity: 0, y: '100%' },
+          }}
+          initial="hidden"
+          animate="show"
+          whileHover={{ scale: 1.2 }}
+        >
           <Widget.Header>
             <CakeText>{db.title}</CakeText>
           </Widget.Header>
@@ -36,14 +48,24 @@ export default function Home() {
           </Widget.Content>
         </Widget>
 
-        <Widget>
+        <Widget
+          as={motion.section}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          variants={{
+            show: { opacity: 1 },
+            hidden: { opacity: 0 },
+          }}
+          initial="hidden"
+          animate="show"
+          whileHover={{ scale: 1.2 }}
+        >
           <Widget.Header>
             <CakeText>Mundo Boleiro</CakeText>
           </Widget.Header>
           <Widget.Content>
             <Widget.FormGame onSubmit={(event) => {
               event.preventDefault();
-              router.push(`/quizBoleiro?playerName=${playerName}`);
+              router.push(`/quiz?playerName=${playerName}`);
               // eslint-disable-next-line no-console
               console.log('Fazendo submissão do formulário');
             }}
@@ -63,7 +85,64 @@ export default function Home() {
 
           </Widget.Content>
         </Widget>
-        <Footer />
+
+        <Widget
+          as={motion.section}
+          transition={{ delay: 1, duration: 0.5 }}
+          variants={{
+            show: { opacity: 1 },
+            hidden: { opacity: 0 },
+          }}
+          initial="hidden"
+          animate="show"
+          whileHover={{ scale: 1.2 }}
+        >
+          <Widget.Header>
+            <CakeText>Quizes da Galera</CakeText>
+          </Widget.Header>
+          <Widget.Content>
+            {/* <pre>
+              {JSON.stringify(db.external, null, 4)}
+            </pre> */}
+
+            <ul>
+              {db.external.map((externalLink, externalLinkId) => {
+                const itemKey = `externalLink_${externalLinkId}`;
+                const [projectName, projectOwner] = externalLink
+                  .replace(/\/|https:|.vercel.app/g, '')
+                  .split('.');
+
+                return (
+                  <li key={itemKey}>
+                    <Widget.Topic
+                      as={Link}
+                      href={`/quiz/${projectName}___${projectOwner}`}
+                      // href={externalLink}
+                    >
+                      <p style={{ fontSize: '1em', margin: '0' }}>
+                        {projectName}
+                      </p>
+                      <p style={{ fontSize: '0.8em', margin: '0', textAlign: 'right' }}>
+                        {projectOwner}
+                      </p>
+                    </Widget.Topic>
+                  </li>
+                );
+              })}
+            </ul>
+          </Widget.Content>
+        </Widget>
+
+        <Footer
+          as={motion.section}
+          transition={{ delay: 4, duration: 0.5 }}
+          variants={{
+            show: { opacity: 1, y: '0' },
+            hidden: { opacity: 0, y: '100%' },
+          }}
+          initial="hidden"
+          animate="show"
+        />
       </QuizContainer>
       <GitHubCorner projectUrl="https://github.com/pmdpaula" />
     </QuizBackground>
